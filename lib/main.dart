@@ -72,6 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 SizedBox(height: 30.h),
+
+
                 skillsSection(),
                 SizedBox(height: 30.h),
                 EmploymentsSection(),
