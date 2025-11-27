@@ -10,13 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 //https://wahab-khan.github.io/Abdul-Wahab-Khan/
 
 void main() {
-  runApp(
-    ScreenUtilInit(
-      designSize: Size(375, 812), // your design size (width x height)
-      minTextAdapt: true, // this sets _minTextAdapt internally
-      child: const MyApp(),
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +20,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', home: const MyHomePage());
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      builder: (_, __) => const MaterialApp(home: MyHomePage()),
+    );
   }
 }
 
