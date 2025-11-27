@@ -16,3 +16,6 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 # https://mjjoshi.github.io/mansi_joshi_portfolio/
+#flutter build web --release --base-href="/mansi_joshi_portfolio/" --output=docs
+
+ 
