@@ -15,7 +15,8 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-# https://mjjoshi.github.io/mansi_joshi_portfolio/
-#flutter build web --release --base-href="/mansi_joshi_portfolio/" --output=docs
+#  https://mjjoshi.github.io/mansi_joshi_portfolio/
+# flutter build web --release --base-href="/mansi_joshi_portfolio/" --output=docs
+# flutter build web --release -t lib/main.dart -o docs
 
  

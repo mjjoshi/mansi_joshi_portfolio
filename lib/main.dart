@@ -41,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 50.h, bottom: 20.h),
@@ -50,30 +49,105 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 /// ----------- Header Section ----------
                 AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(35), fontWeight: FontWeight.w700, color: Colors.black),
-
                 AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w400, color: AppColors.colorPrimary),
-
                 SizedBox(height: 30.h),
 
-                /// ----------- About Section ----------
-                AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: Colors.black),
-
-                SizedBox(
-                  width: 50.w,
-                  child: AppWidgets.divider(colors: AppColors.colorPrimary),
+                Container(
+                  padding: EdgeInsetsGeometry.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1, offset: Offset(0, 0))],
+                  ),
+                  child: Column(
+                    children: [
+                      AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: Colors.black),
+                      SizedBox(
+                        width: 50.w,
+                        child: AppWidgets.divider(colors: AppColors.colorPrimary),
+                      ),
+                      SizedBox(height: 10.h),
+                      setAboutMe(),
+                    ],
+                  ),
                 ),
+                SizedBox(height: 30.h),
+                skillsSection(),
+                SizedBox(height: 30.h),
+                EmploymentsSection(),
 
-                SizedBox(height: 10.h),
-
-                setAboutMe(),
-
-                SizedBox(height: 50.h),
-
+                SizedBox(height: 30.h),
                 footerSection(),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget EmploymentsSection() {
+    return Container(
+      padding: EdgeInsetsGeometry.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1, offset: Offset(0, 0))],
+      ),
+
+    );
+  }
+
+
+
+
+
+  Widget skillsSection() {
+    return Container(
+      padding: EdgeInsetsGeometry.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1, offset: Offset(0, 0))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: AppWidgets.commonTextAvenir("Technical Skills", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: Colors.black),
+          ),
+          Center(
+            child: SizedBox(
+              width: 50.w,
+              child: AppWidgets.divider(colors: AppColors.colorPrimary),
+            ),
+          ),
+          SizedBox(height: 10.h),
+          _skillItem("Programming Languages", "Dart, Kotlin, Basic of Java"),
+          _skillItem("Mobile Development", "Flutter, Native Android Development, UI Integration, Custom Widgets, Animations"),
+          _skillItem("State Management", "GetX, Bloc, Provider"),
+          _skillItem("Architectures", "MVVM, MVC, CLEAN Architecture"),
+          _skillItem("API & Networking", "REST API Integration (Dio, Http, Retrofit, Volley), Swagger, Postman, FFMPEG Integration"),
+          _skillItem("Database & Storage", "SQFLite,SQLite,Room Database, Firebase Database, Shared Preferences"),
+          _skillItem("Firebase Services", "Firebase Authentication, FCM Push Notifications, Firebase Analytics, FlutterFire , Firebase Crashlytics, Firebase Remote Config"),
+          _skillItem("Payments", "Stripe Integration (FPX, Google Pay, Apple Pay), In-app Purchases , Razorpay"),
+          _skillItem("Version Control", "GitHub, GitLab"),
+          _skillItem("Tools & Platforms", "Android Studio, VS Code, Trello, Slack, Basecamp, Asana, Redmine, Zeplin, ClickUp, Figma, Adobe XD, Miro Board"),
+          _skillItem("Other Skills", "Prototyping, Wireframing, Code Review, Client Communication"),
+        ],
+      ),
+    );
+  }
+
+  Widget _skillItem(String title, String skills) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 5.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppWidgets.commonTextAvenir("${title}: ", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
+          AppWidgets.commonTextAvenir(skills, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
+        ],
       ),
     );
   }
@@ -84,7 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppWidgets.commonTextAvenir("Get In Touch", fontSize: AppWidgets.getResponsiveFont(30), fontWeight: FontWeight.w700, color: Colors.black),
-
         SizedBox(
           width: 50.w,
           child: AppWidgets.divider(colors: AppColors.colorPrimary),
