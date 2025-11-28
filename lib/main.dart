@@ -5,6 +5,8 @@ import 'package:portfolio/values/app_colors.dart';
 import 'package:portfolio/values/app_images.dart';
 import 'package:portfolio/values/app_widgets.dart';
 import 'package:portfolio/values/fadeIntext.dart';
+import 'package:portfolio/values/gradient_button.dart';
+import 'package:portfolio/values/project_model.dart';
 import 'package:portfolio/values/slide_animation.dart';
 import 'package:portfolio/values/strings_name.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,22 +53,48 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FadeInText(child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(35), fontWeight: FontWeight.w700, color: Colors.black)),
-                    AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w400, color: AppColors.colorPrimary),
-                    SizedBox(height: 30.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        /// LEFT SIDE — TEXT
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FadeInText(
+                              child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(35), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+                            ),
+                            AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w400, color: AppColors.colorPrimary),
+                          ],
+                        ),
 
+                        Row(
+                          children: [
+                            GradientButton(
+                              text: "Projects",
+                              onTap: () {
+                                // your action here
+                              },
+                            ),
+                            SizedBox(width: 10.w),
+                            GradientButton(
+                              text: "Resume",
+                              onTap: () {
+                                // your action here
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30.h),
                     SlideAnimation(
                       child: Container(
                         padding: EdgeInsetsGeometry.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.r,),
-
-                          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2, spreadRadius: 0.5, offset: Offset(0, 0))],
-                        ),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
                         child: Column(
                           children: [
-                            AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: Colors.black),
+                            AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
                             SizedBox(
                               width: 50.w,
                               child: AppWidgets.divider(colors: AppColors.colorPrimary),
@@ -78,14 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     SizedBox(height: 30.h),
-
                     skillsSection(),
                     SizedBox(height: 30.h),
                     employmentSection(),
                     SizedBox(height: 30.h),
                     educationSection(),
                     SizedBox(height: 30.h),
-
+                    projectSection(),
+                    SizedBox(height: 30.h),
                   ],
                 ),
               ),
@@ -97,8 +125,147 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget projectSection() {
+    return SlideAnimation(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
+        child: Column(
+          children: [
+            Center(
+              child: AppWidgets.commonTextAvenir("My Projects", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+            ),
+            Center(
+              child: SizedBox(
+                width: 10.w,
+                child: AppWidgets.divider(colors: AppColors.colorPrimary),
+              ),
+            ),
+            LayoutBuilder(
+              builder: (_, constraints) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.all(8.r),
+                  itemCount: projects.length,
+                  itemBuilder: (context, index) {
+                    return projectCard(projects[index]);
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget projectCard(ProjectModel project) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 5.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(5.r),
+        border: Border.all(color: AppColors.colorWhiteLight),
+      ),
+      padding: EdgeInsets.all(8.r),
+      child: Row(
+        children: [
+          Image.asset(project.image, fit: BoxFit.contain, height: 130.h),
+          SizedBox(width: 3.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppWidgets.commonTextAvenir(project.title, fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.blackFont),
+                SizedBox(height: 6.h),
+                AppWidgets.commonTextAvenir("Technology: ${project.technology}", maxLines: 9, fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                SizedBox(height: 6.h),
+                AppWidgets.commonTextAvenir(project.synopsis, maxLines: 9, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
+              ],
+            ),
+          ),
+          SizedBox(width: 3.w),
+          Center(
+            child: GradientButton(
+              text: "View Details",
+              onTap: () {
+                _launchLinks(project.link);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<BoxShadow> commonLightShadow({double opacity = 0.30, double blur = 2, double spread = 0.3, Offset offset = const Offset(0, 0)}) {
+    return [BoxShadow(color: AppColors.colorPrimaryLight.withOpacity(opacity), blurRadius: blur, spreadRadius: spread, offset: offset)];
+  }
+
   Widget educationSection() {
-    return Container();
+    return SlideAnimation(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: AppWidgets.commonTextAvenir("Education", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+            ),
+            Center(
+              child: SizedBox(
+                width: 10.w,
+                child: AppWidgets.divider(colors: AppColors.colorPrimary),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        children: [
+                          AppWidgets.commonTextAvenir("BE in Computer Engineering", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
+                          AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                        ],
+                      ),
+                      SizedBox(height: 6.h),
+                      AppWidgets.commonTextAvenir("Gujarat Technological University (CGPA - 8.02)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  height: 60.h,
+                  color: Colors.grey.shade400,
+                  margin: EdgeInsets.symmetric(horizontal: 5.w),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        children: [
+                          AppWidgets.commonTextAvenir("HSCB", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
+                          AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                        ],
+                      ),
+                      SizedBox(height: 6.h),
+                      AppWidgets.commonTextAvenir("Alpha High School (70%)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget employmentSection() {
@@ -133,16 +300,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return SlideAnimation(
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.r),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2, spreadRadius: 0.5, offset: Offset(0, 0))],
-        ),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: AppWidgets.commonTextAvenir("Employment History", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: Colors.black),
+              child: AppWidgets.commonTextAvenir("Employment History", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
             ),
             Center(
               child: SizedBox(
@@ -183,16 +346,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return SlideAnimation(
       child: Container(
         padding: EdgeInsetsGeometry.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.r),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2, spreadRadius: 0.5, offset: Offset(0, 0))],
-        ),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: AppWidgets.commonTextAvenir("Technical Skills", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: Colors.black),
+              child: AppWidgets.commonTextAvenir("Technical Skills", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
             ),
             Center(
               child: SizedBox(
@@ -235,9 +394,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget footerSection() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15.r)),
-        color: AppColors.colorPrimary
+        borderRadius: BorderRadius.only(topRight: Radius.circular(25.r), topLeft: Radius.circular(25.r)),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF000080),
+            Color(0xFF0000DC), // Dark blue
+            Color(0xFF6666FF), // Light blue
+          ],
+        ),
       ),
+
       child: Column(
         spacing: 10.h,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -249,17 +415,16 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 20.w,
             child: AppWidgets.divider(colors: AppColors.colorWhite),
           ),
+
           /// Email Row
           GestureDetector(
             onTap: _launchEmail,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.email, color: Colors.white,size: 25.r,),
+                Icon(Icons.email, color: Colors.white, size: 25.r),
                 SizedBox(width: 2.w),
-                AppWidgets.commonTextAvenir("Joshimansi669@gmail.com",
-                    fontWeight: FontWeight.w600,
-                    fontSize: AppWidgets.getResponsiveFont(16), color: AppColors.colorWhite),
+                AppWidgets.commonTextAvenir("Joshimansi669@gmail.com", fontWeight: FontWeight.w600, fontSize: AppWidgets.getResponsiveFont(16), color: AppColors.colorWhite),
               ],
             ),
           ),
@@ -270,16 +435,12 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.phone, color: Colors.white,size: 25.r,),
+                Icon(Icons.phone, color: Colors.white, size: 25.r),
                 SizedBox(width: 2.w),
-                AppWidgets.commonTextAvenir("+91 9723555363",
-                    fontWeight: FontWeight.w600,
-                    fontSize: AppWidgets.getResponsiveFont(16), color: AppColors.colorWhite),
+                AppWidgets.commonTextAvenir("+91 9723555363", fontWeight: FontWeight.w600, fontSize: AppWidgets.getResponsiveFont(16), color: AppColors.colorWhite),
               ],
             ),
           ),
-
-
 
           /// LinkedIn Row
           Row(
@@ -341,6 +502,96 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  final List<ProjectModel> projects = [
+    ProjectModel(
+      title: "Payday Fund",
+      technology: "Flutter, NodeJS, ReactJS, My SQL",
+      synopsis:
+          "Payday is an Earned Wage Access app that lets employees access a portion of their earned salary before payday.It provides instant withdrawals with transparent, non-loan fees deducted on the next salary.Users learn budgeting and saving through short, gamified financial modules.Smart algorithms ensure responsible usage and secure integration with employer payroll systems.",
+      image: AppImage.icPayday,
+      link: '',
+    ),
+    ProjectModel(
+      title: "RespondSVP – Envitely",
+      technology: "Flutter, NodeJS, ReactJS, MongoDB",
+      synopsis:
+          "A complete event management platform for Hosts, Co-hosts, Guests, and Admins.Users can create, manage, and track events with invitations and detailed listings.Guests receive event invites, view details, and participate seamlessly.The admin panel manages all users, events, and platform settings efficiently.",
+      image: AppImage.icEnvitely,
+      link: 'https://play.google.com/store/apps/details?id=com.envitely.eventmanager',
+    ),
+    ProjectModel(
+      title: "Vidola",
+      technology: "Flutter, NodeJS, ReactJS, MongoDB",
+      synopsis:
+          "Vidola is a multi-role service platform for Customers, Titans, and Super Admins.Customers can request services, make payments, recharge wallets, and track bookings.Titans manage their services, schedules, earnings, and bids within the app.Admins oversee users, services, requests, ratings, and reports through a web panel.",
+      image: AppImage.icVidola,
+      link: '',
+    ),
+    ProjectModel(
+      title: "الجشعمي",
+      technology: "Flutter, Java, ReactJS, MySQL",
+      synopsis: "Al-Jashaami is a global brand in Iraq dealing in furniture, electrical, cosmetics and many goods. Users can browse products, explore categories, and shop seamlessly.App displays product catalog and supports multilingual shopping.",
+      image: AppImage.icEcommerce,
+      link: 'https://play.google.com/store/apps/details?id=com.aljcami.aljcami',
+    ),
+    ProjectModel(
+      title: "Andiccio24",
+      technology: "Flutter, WordPress, Php, ReactJS",
+      synopsis:
+          "A modern food and pizza delivery app rebuilt from Ionic to Flutter.Users can browse menus, view restaurant details, and order food quickly.Google Maps support helps users track their location and estimate delivery distance.The app includes in-app webviews and essential ordering features.",
+      image: AppImage.icAndiccio24,
+      link: 'https://play.google.com/store/apps/details?id=com.ips.andiccio24.orders',
+    ),
+    ProjectModel(
+      title: "USCCB Bishops Meetings",
+      technology: "Flutter, NEST JS, MongoDB, ReactJS",
+      synopsis:
+          "A hybrid application providing users access to documents, session schedules, and chat features.Users can browse, read, and interact with content in a user-friendly interface.The admin panel manages documents, maps, events, surveys, and CMS modules.The solution enhances communication and event management for end users.",
+      image: AppImage.icUsccb,
+      link: 'https://play.google.com/store/apps/details?id=com.usccb',
+    ),
+    ProjectModel(
+      title: "Super Solutions",
+      technology: "NEST JS, Flutter, ReactJS,MongoDB",
+      synopsis:
+          "Super Solutions is a hybrid application enabling customers to book services from providers.Users can browse service categories, schedule appointments, and manage bookings.Service providers can view requests, manage payments, and handle inquiries.The platform includes a complete CMS and backend for admin-level control.",
+      image: AppImage.icSupersolution,
+      link: 'https://play.google.com/store/apps/details?id=com.supersolutions&hl=en',
+    ),
+    ProjectModel(
+      title: "BHL TripHub",
+      technology: "React Native, Node JS, React JS ,MongoDB",
+      synopsis:
+          "GIF Maker is a powerful all-in-one tool for creating and editing GIFs on Android.Users can convert videos, selfies, photos, or recordings into high-quality GIFs.It supports video trimming, merging, compression, and GIF editing with no watermark.The app allows easy sharing on all major social platforms.",
+      image: AppImage.icBHL,
+      link: 'https://play.google.com/store/apps/details?id=com.bhl.triphub',
+    ),
+    ProjectModel(
+      title: "BrodexTrident",
+      technology: "SQLite, MySQL, Kotlin, PHP, Android",
+      synopsis:
+          "The BrodexTrident mobile app connects engineers with the BT Aqua System in real-time.It provides job details such as site address, instructions, assets, and notes.Engineers can upload job data, photos, signatures, and parts used directly from the field.The system eliminates paper-based workflow and allows instant processing by office staff.",
+      image: AppImage.icEnvitely,
+      link: 'https://play.google.com/store/apps/details?id=com.brodex&hl=en_IN',
+    ),
+    ProjectModel(
+      title: "Glow Aesthetics",
+      technology: "PHP, Swift, Kotlin, iOS, Android",
+      synopsis:
+          "Glow Aesthetics is a healthcare and skincare service app for a Dubai-based clinic.It showcases treatments like skincare, laser, aesthetics, surgery, and wellness services.Users can explore services, learn about treatments, and connect with specialists.The app provides a modern interface built with advanced mobile technologies.",
+      image: AppImage.icEnvitely,
+      link: 'https://play.google.com/store/apps/details?id=com.glowdubai&hl=en',
+    ),
+    ProjectModel(
+      title: "GIF Maker",
+      technology: "Android, JAVA",
+      synopsis:
+          "GIF Maker is a powerful all-in-one tool for creating and editing GIFs on Android.Users can convert videos, selfies, photos, or recordings into high-quality GIFs.It supports video trimming, merging, compression, and GIF editing with no watermark.The app allows easy sharing on all major social platforms.",
+      image: AppImage.icEnvitely,
+      link: '',
+    ),
+  ];
+
   Future<void> _launchEmail() async {
     final Uri emailUri = Uri(scheme: 'mailto', path: 'Joshimansi669@gmail.com');
     await launchUrl(emailUri);
@@ -353,6 +604,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _launchLinkedIn() async {
     final Uri linkedInUri = Uri.parse('https://www.linkedin.com/in/your-profile-here');
+    await launchUrl(linkedInUri);
+  }
+
+  Future<void> _launchLinks(String link) async {
+    final Uri linkedInUri = Uri.parse(link);
     await launchUrl(linkedInUri);
   }
 }

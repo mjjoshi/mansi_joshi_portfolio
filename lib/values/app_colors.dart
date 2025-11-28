@@ -5,7 +5,8 @@ class AppColors {
   static const Color creditColor = Color(0xff339943);
   static const Color blackFont = Color(0xff172B4D);
   static const Color debitColor = Color(0xffB71428);
-  static const Color colorPrimary = Color(0xffBA3645);
+  static const Color colorPrimary = Color(0xff0000DC);
+  static const Color colorPrimaryLight = Color(0x900000DC);
 
   static const Color colorSecondary = Color(0xff681A29);
   static const Color colorWhite = Color(0xffFFFFFF);
@@ -30,12 +31,7 @@ extension HexColor on Color {
       colorCode = "FF$colorCode";
     }
     int colorValue = int.parse("0x$colorCode");
-    return Color.fromRGBO(
-      (colorValue >> 16) & 0xFF,
-      (colorValue >> 8) & 0xFF,
-      colorValue & 0xFF,
-      opacity,
-    );
+    return Color.fromRGBO((colorValue >> 16) & 0xFF, (colorValue >> 8) & 0xFF, colorValue & 0xFF, opacity);
   }
 }
 
@@ -47,34 +43,21 @@ class ThemeNames {
 
     primaryColor: AppColors.colorPrimary,
     // buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-    cardTheme: const CardThemeData(
-      surfaceTintColor: Colors.white,
-    ),
+    cardTheme: const CardThemeData(surfaceTintColor: Colors.white),
     dialogTheme: const DialogThemeData(surfaceTintColor: Colors.white, backgroundColor: AppColors.colorWhite),
 
-    textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: AppColors.blackFont,
-      selectionColor: AppColors.blackFont,
-      selectionHandleColor: AppColors.blackFont,
-    ),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.blackFont, selectionColor: AppColors.blackFont, selectionHandleColor: AppColors.blackFont),
     //  bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: AppColors.colorLightBottomNavigationBar),
     outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-      backgroundColor: AppColors.colorWhite,
-      side: const BorderSide(
-        color: AppColors.colorPrimary,
-        width: 1,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: AppColors.colorWhite,
+        side: const BorderSide(color: AppColors.colorPrimary, width: 1),
+        foregroundColor: AppColors.colorPrimary,
+        textStyle: TextStyle(color: AppColors.colorPrimary, fontSize: 14.sp, fontWeight: FontWeight.w700),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       ),
-      foregroundColor: AppColors.colorPrimary,
-      textStyle: TextStyle(color: AppColors.colorPrimary, fontSize: 14.sp, fontWeight: FontWeight.w700),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(100),
-      ),
-    )),
-    bottomSheetTheme: const BottomSheetThemeData(
-      surfaceTintColor: AppColors.colorWhite,
-      backgroundColor: AppColors.colorWhite,
     ),
+    bottomSheetTheme: const BottomSheetThemeData(surfaceTintColor: AppColors.colorWhite, backgroundColor: AppColors.colorWhite),
   );
 }
 
