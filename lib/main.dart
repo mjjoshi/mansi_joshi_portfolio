@@ -40,12 +40,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey projectKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
               Padding(
@@ -53,40 +57,56 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        /// LEFT SIDE — TEXT
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FadeInText(
-                              child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(35), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
-                            ),
-                            AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w400, color: AppColors.colorPrimary),
-                          ],
-                        ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        bool isMobile = constraints.maxWidth < 600;
 
-                        Row(
-                          children: [
-                            GradientButton(
-                              text: "Projects",
-                              onTap: () {
-                                // your action here
-                              },
-                            ),
-                            SizedBox(width: 10.w),
-                            GradientButton(
-                              text: "Resume",
-                              onTap: () {
-                                // your action here
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
+                        return isMobile
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // text
+                                  FadeInText(child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: 35, fontWeight: FontWeight.w700)),
+                                  AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: 12),
+                                  SizedBox(height: 20),
+                                  // buttons
+                                  Wrap(
+                                    spacing: 10,
+                                    children: [
+                                      GradientButton(text: "Projects", onTap: () {}),
+                                      GradientButton(text: "Resume", onTap: () {}),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // text section
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      FadeInText(child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: 35, fontWeight: FontWeight.w700)),
+                                      AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: 12),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      GradientButton(
+                                        text: "Projects",
+                                        onTap: () {
+                                          Scrollable.ensureVisible(projectKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
+                                        },
+                                      ),
+                                      SizedBox(width: 10),
+                                      GradientButton(text: "Resume", onTap: () {}),
+                                    ],
+                                  ),
+                                ],
+                              );
+                      },
                     ),
+
                     SizedBox(height: 30.h),
                     SlideAnimation(
                       child: Container(
@@ -128,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget projectSection() {
     return SlideAnimation(
       child: Container(
+        key: projectKey,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
@@ -161,41 +182,105 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget projectCard(ProjectModel project) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 5.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5.r),
-        border: Border.all(color: AppColors.colorWhiteLight),
-      ),
-      padding: EdgeInsets.all(8.r),
-      child: Row(
-        children: [
-          Image.asset(project.image, fit: BoxFit.contain, height: 130.h),
-          SizedBox(width: 3.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppWidgets.commonTextAvenir(project.title, fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.blackFont),
-                SizedBox(height: 6.h),
-                AppWidgets.commonTextAvenir("Technology: ${project.technology}", maxLines: 9, fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w600, color: AppColors.blackFont),
-                SizedBox(height: 6.h),
-                AppWidgets.commonTextAvenir(project.synopsis, maxLines: 9, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
-              ],
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isMobile = constraints.maxWidth < 600; // check mobile width
+
+        return Container(
+          margin: EdgeInsets.only(bottom: 5.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.r),
+            border: Border.all(color: AppColors.colorWhiteLight),
           ),
-          SizedBox(width: 3.w),
-          Center(
-            child: GradientButton(
-              text: "View Details",
-              onTap: () {
-                _launchLinks(project.link);
-              },
-            ),
+          padding: EdgeInsets.all(8.r),
+
+          child: isMobile
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// IMAGE
+                    Center(
+                      child: Image.asset(project.image, fit: BoxFit.contain, height: 120.h),
+                    ),
+                    SizedBox(height: 8.h),
+
+                    /// TITLE
+                    AppWidgets.commonTextAvenir(project.title, maxLines: 2, fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.blackFont),
+                    SizedBox(height: 6.h),
+                    buildTechChips(project.technology),
+                    SizedBox(height: 6.h),
+
+                    /// SYNOPSIS
+                    AppWidgets.commonTextAvenir(project.synopsis, maxLines: 9, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
+                    SizedBox(height: 8.h),
+
+                    /// BUTTON CENTERED
+                    Center(
+                      child: GradientButton(
+                        text: "View Details",
+                        onTap: () {
+                          _launchLinks(project.link);
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              /// DESKTOP + WEB LAYOUT (your original row)
+              : Row(
+                  children: [
+                    Image.asset(project.image, fit: BoxFit.contain, height: 130.h),
+                    SizedBox(width: 3.w),
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppWidgets.commonTextAvenir(project.title, maxLines: 2, fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.blackFont),
+                          SizedBox(height: 6.h),
+
+                          buildTechChips(project.technology),
+                          SizedBox(height: 6.h),
+
+                          AppWidgets.commonTextAvenir(project.synopsis, maxLines: 9, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(width: 3.w),
+
+                    Center(
+                      child: GradientButton(
+                        text: "View Details",
+                        onTap: () {
+                          _launchLinks(project.link);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+        );
+      },
+    );
+  }
+
+  Widget buildTechChips(String techString) {
+    // Split technologies by comma
+    List<String> techList = techString.split(",").map((e) => e.trim()).toList();
+    return Wrap(
+      spacing: 6,
+      runSpacing: 6,
+      children: techList.map((tech) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(5.r),
+            border: Border.all(color: Colors.grey.shade300),
           ),
-        ],
-      ),
+          child: AppWidgets.commonTextAvenir(tech, maxLines: 9, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+        );
+      }).toList(),
     );
   }
 
@@ -364,13 +449,13 @@ class _MyHomePageState extends State<MyHomePage> {
             _skillItem("Mobile Development", "Flutter, Native Android Development, UI Integration, Custom Widgets, Animations"),
             _skillItem("State Management", "GetX, Bloc, Provider"),
             _skillItem("Architectures", "MVVM, MVC, CLEAN Architecture"),
-            _skillItem("API & Networking", "REST API Integration (Dio, Http, Retrofit, Volley), Swagger, Postman, FFMPEG Integration"),
+            _skillItem("API & Networking", "REST API Integration (Dio, Http, Retrofit, Volley),FFMPEG Integration"),
             _skillItem("Database & Storage", "SQFLite,SQLite,Room Database, Firebase Database, Shared Preferences"),
             _skillItem("Firebase Services", "Firebase Authentication, FCM Push Notifications, Firebase Analytics, FlutterFire , Firebase Crashlytics, Firebase Remote Config"),
             _skillItem("Payments", "Stripe Integration (FPX, Google Pay, Apple Pay), In-app Purchases , Razorpay"),
             _skillItem("Version Control", "GitHub, GitLab"),
-            _skillItem("Tools & Platforms", "Android Studio, VS Code, Trello, Slack, Basecamp, Asana, Redmine, Zeplin, ClickUp, Figma, Adobe XD, Miro Board"),
-            _skillItem("Other Skills", "Prototyping, Wireframing, Code Review, Client Communication"),
+            _skillItem("Tools & Platforms", "Android Studio, VS Code, Trello, Slack, Basecamp, Asana, Redmine, ClickUp, Figma, Miro Board, ChatGPT, Cursor, Github Copilot, Postman, Swagger"),
+            _skillItem("Other Skills", "Prototyping, Wireframing, Code Review, Client Communication, Sprint Planning, Team Collaboration"),
           ],
         ),
       ),
@@ -525,7 +610,7 @@ class _MyHomePageState extends State<MyHomePage> {
       synopsis:
           "Vidola is a multi-role service platform for Customers, Titans, and Super Admins.Customers can request services, make payments, recharge wallets, and track bookings.Titans manage their services, schedules, earnings, and bids within the app.Admins oversee users, services, requests, ratings, and reports through a web panel.",
       image: AppImage.icVidola,
-      link: '',
+      link: 'https://play.google.com/store/apps/details?id=com.vidola.gapp.customer',
     ),
     ProjectModel(
       title: "الجشعمي",
@@ -536,7 +621,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     ProjectModel(
       title: "Andiccio24",
-      technology: "Flutter, WordPress, Php, ReactJS",
+      technology: "Flutter, WordPress, PHP, ReactJS",
       synopsis:
           "A modern food and pizza delivery app rebuilt from Ionic to Flutter.Users can browse menus, view restaurant details, and order food quickly.Google Maps support helps users track their location and estimate delivery distance.The app includes in-app webviews and essential ordering features.",
       image: AppImage.icAndiccio24,
@@ -562,7 +647,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: "BHL TripHub",
       technology: "React Native, Node JS, React JS ,MongoDB",
       synopsis:
-          "GIF Maker is a powerful all-in-one tool for creating and editing GIFs on Android.Users can convert videos, selfies, photos, or recordings into high-quality GIFs.It supports video trimming, merging, compression, and GIF editing with no watermark.The app allows easy sharing on all major social platforms.",
+          "The platform includes a web-based system for Admin and Sub Admin, along with a mobile app for Fuel Attendants. Admins can manage users, content, and overall platform settings through their web panel. Sub Admins access the same panel with limited permissions, allowing them to create, manage, and complete trips. Fuel Attendants use the mobile app to record fueling and re-fueling logs for vehicles. The system ensures smooth operations, accurate trip tracking, and efficient fuel log management.",
       image: AppImage.icBHL,
       link: 'https://play.google.com/store/apps/details?id=com.bhl.triphub',
     ),
@@ -582,14 +667,6 @@ class _MyHomePageState extends State<MyHomePage> {
       image: AppImage.icEnvitely,
       link: 'https://play.google.com/store/apps/details?id=com.glowdubai&hl=en',
     ),
-    ProjectModel(
-      title: "GIF Maker",
-      technology: "Android, JAVA",
-      synopsis:
-          "GIF Maker is a powerful all-in-one tool for creating and editing GIFs on Android.Users can convert videos, selfies, photos, or recordings into high-quality GIFs.It supports video trimming, merging, compression, and GIF editing with no watermark.The app allows easy sharing on all major social platforms.",
-      image: AppImage.icEnvitely,
-      link: '',
-    ),
   ];
 
   Future<void> _launchEmail() async {
@@ -603,7 +680,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _launchLinkedIn() async {
-    final Uri linkedInUri = Uri.parse('https://www.linkedin.com/in/your-profile-here');
+    final Uri linkedInUri = Uri.parse('https://www.linkedin.com/in/mansi-joshi-2b167a130?utm_source=share_via&utm_content=profile&utm_medium=member_android');
     await launchUrl(linkedInUri);
   }
 
