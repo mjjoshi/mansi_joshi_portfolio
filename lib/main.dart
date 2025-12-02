@@ -115,10 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Column(
                           children: [
                             AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
-                            SizedBox(
-                              width: 50.w,
-                              child: AppWidgets.divider(colors: AppColors.colorPrimary),
-                            ),
+                            // AppWidgets.divider(colors: AppColors.colorPrimary),
                             SizedBox(height: 10.h),
                             setAboutMe(),
                           ],
@@ -156,12 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Center(
               child: AppWidgets.commonTextAvenir("My Projects", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
             ),
-            Center(
-              child: SizedBox(
-                width: 10.w,
-                child: AppWidgets.divider(colors: AppColors.colorPrimary),
-              ),
-            ),
+            // AppWidgets.divider(colors: AppColors.colorPrimary),
             LayoutBuilder(
               builder: (_, constraints) {
                 return ListView.builder(
@@ -299,12 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Center(
               child: AppWidgets.commonTextAvenir("Education", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
             ),
-            Center(
-              child: SizedBox(
-                width: 10.w,
-                child: AppWidgets.divider(colors: AppColors.colorPrimary),
-              ),
-            ),
+            // AppWidgets.divider(colors: AppColors.colorPrimary),
             SizedBox(height: 20.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,12 +379,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Center(
               child: AppWidgets.commonTextAvenir("Employment History", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
             ),
-            Center(
-              child: SizedBox(
-                width: 50.w,
-                child: AppWidgets.divider(colors: AppColors.colorPrimary),
-              ),
-            ),
+            // AppWidgets.divider(colors: AppColors.colorPrimary),
             SizedBox(height: 10.h),
             ...jobs.map((job) {
               return Padding(
@@ -438,12 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Center(
               child: AppWidgets.commonTextAvenir("Technical Skills", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
             ),
-            Center(
-              child: SizedBox(
-                width: 50.w,
-                child: AppWidgets.divider(colors: AppColors.colorPrimary),
-              ),
-            ),
+            // AppWidgets.divider(colors: AppColors.colorPrimary),
             SizedBox(height: 10.h),
             _skillItem("Programming Languages", "Dart, Kotlin, Basic of Java"),
             _skillItem("Mobile Development", "Flutter, Native Android Development, UI Integration, Custom Widgets, Animations"),
@@ -496,10 +473,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           SizedBox(height: 10.h),
           AppWidgets.commonTextAvenir("Get In Touch", fontSize: AppWidgets.getResponsiveFont(25), fontWeight: FontWeight.w700, color: Colors.white),
-          SizedBox(
-            width: 20.w,
-            child: AppWidgets.divider(colors: AppColors.colorWhite),
-          ),
+          // AppWidgets.divider(colors: AppColors.colorWhite),
 
           /// Email Row
           GestureDetector(
@@ -534,14 +508,14 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  _launchLinkedIn();
+                  _launchLinks("https://www.linkedin.com/in/mansi-joshi-2b167a130?utm_source=share_via&utm_content=profile&utm_medium=member_android");
                 },
                 child: Image.asset(AppImage.icLinkedin, fit: BoxFit.contain, height: 40.h),
               ),
               SizedBox(width: 10.w),
               GestureDetector(
                 onTap: () {
-                  _launchLinkedIn();
+                  _launchLinks("https://github.com/mjjoshi");
                 },
                 child: Image.asset(AppImage.icGithub, fit: BoxFit.contain, height: 40.h),
               ),
@@ -679,10 +653,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await launchUrl(phoneUri);
   }
 
-  Future<void> _launchLinkedIn() async {
-    final Uri linkedInUri = Uri.parse('https://www.linkedin.com/in/mansi-joshi-2b167a130?utm_source=share_via&utm_content=profile&utm_medium=member_android');
-    await launchUrl(linkedInUri);
-  }
+
 
   Future<void> _launchLinks(String link) async {
     final Uri linkedInUri = Uri.parse(link);

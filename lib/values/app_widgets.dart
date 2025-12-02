@@ -26,9 +26,11 @@ class AppWidgets {
     );
   }
 
-  static Widget divider({double heights = 1, Color colors = AppColors.dividerLineColor}) {
-    return Divider(height: heights, color: colors);
-  }
+  // static Widget divider({double heights = 1, Color colors = AppColors.dividerLineColor}) {
+  //   return SizedBox(
+  //       width: 50.w,
+  //       child: Divider(height: heights, color: colors,));
+  // }
   static double getResponsiveFont(double size) {
     if (kIsWeb) {
       return (size.sp).clamp(size, size + 4); // Smooth scaling
