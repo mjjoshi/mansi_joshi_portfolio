@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:portfolio/values/app_colors.dart';
 import 'package:portfolio/values/app_images.dart';
 import 'package:portfolio/values/app_widgets.dart';
-import 'package:portfolio/values/fadeIntext.dart';
 import 'package:portfolio/values/gradient_button.dart';
 import 'package:portfolio/values/project_model.dart';
 import 'package:portfolio/values/slide_animation.dart';
 import 'package:portfolio/values/strings_name.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-//https://wahab-khan.github.io/Abdul-Wahab-Khan/
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,32 +46,34 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 50.h, bottom: 20.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        bool isMobile = constraints.maxWidth < 600;
-
-                        return isMobile
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final isMobile = constraints.maxWidth < 800;
+            return SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                children: [
+                  //padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 50.h, bottom: 20.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 50.h, bottom: 20.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        isMobile
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // text
-                                  FadeInText(child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: 35, fontWeight: FontWeight.w700)),
-                                  AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: 12),
+                                  AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(30), color: AppColors.blackFont, fontWeight: FontWeight.w700),
+                                  AppWidgets.commonTextAvenir("Senior Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(10)),
                                   SizedBox(height: 20),
                                   // buttons
                                   Wrap(
                                     spacing: 10,
                                     children: [
-                                      GradientButton(text: "Projects", onTap: () {}),
+                                      GradientButton(text: "Projects", onTap: () {
+                                        Scrollable.ensureVisible(projectKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
+                                      }),
                                       GradientButton(text: "Resume", onTap: () {}),
                                     ],
                                   ),
@@ -86,8 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      FadeInText(child: AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: 35, fontWeight: FontWeight.w700)),
-                                      AppWidgets.commonTextAvenir("Senior Software Engineer", fontSize: 12),
+                                      AppWidgets.commonTextAvenir("Mansi Joshi", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(34), fontWeight: FontWeight.w700),
+                                      AppWidgets.commonTextAvenir("Sr.Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(15)),
                                     ],
                                   ),
                                   Row(
@@ -103,40 +103,40 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ],
                                   ),
                                 ],
-                              );
-                      },
-                    ),
+                              ),
 
-                    SizedBox(height: 30.h),
-                    SlideAnimation(
-                      child: Container(
-                        padding: EdgeInsetsGeometry.all(10),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
-                        child: Column(
-                          children: [
-                            AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
-                            // AppWidgets.divider(colors: AppColors.colorPrimary),
-                            SizedBox(height: 10.h),
-                            setAboutMe(),
-                          ],
+                        SizedBox(height: 30.h),
+                        SlideAnimation(
+                          child: Container(
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
+                            child: Column(
+                              children: [
+                                AppWidgets.gradientBox(
+                                  child: AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
+                                ),
+                                SizedBox(height: 10.h),
+                                setAboutMe(),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 30.h),
+                        skillsSection(),
+                        SizedBox(height: 30.h),
+                        employmentSection(),
+                        SizedBox(height: 30.h),
+                        educationSection(),
+                        SizedBox(height: 30.h),
+                        projectSection(),
+                        SizedBox(height: 30.h),
+                      ],
                     ),
-                    SizedBox(height: 30.h),
-                    skillsSection(),
-                    SizedBox(height: 30.h),
-                    employmentSection(),
-                    SizedBox(height: 30.h),
-                    educationSection(),
-                    SizedBox(height: 30.h),
-                    projectSection(),
-                    SizedBox(height: 30.h),
-                  ],
-                ),
+                  ),
+                  footerSection(),
+                ],
               ),
-              footerSection(),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -146,12 +146,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return SlideAnimation(
       child: Container(
         key: projectKey,
-        padding: const EdgeInsets.all(10),
+
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           children: [
-            Center(
-              child: AppWidgets.commonTextAvenir("My Projects", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+            AppWidgets.gradientBox(
+              child: AppWidgets.commonTextAvenir("My Projects", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
             ),
             // AppWidgets.divider(colors: AppColors.colorPrimary),
             LayoutBuilder(
@@ -283,56 +283,58 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget educationSection() {
     return SlideAnimation(
       child: Container(
-        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: AppWidgets.commonTextAvenir("Education", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+            AppWidgets.gradientBox(
+              child: AppWidgets.commonTextAvenir("Education", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
             ),
             // AppWidgets.divider(colors: AppColors.colorPrimary),
             SizedBox(height: 20.h),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Wrap(
-                        children: [
-                          AppWidgets.commonTextAvenir("BE in Computer Engineering", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
-                          AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
-                        ],
-                      ),
-                      SizedBox(height: 6.h),
-                      AppWidgets.commonTextAvenir("Gujarat Technological University (CGPA - 8.02)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
-                    ],
+            Padding(
+              padding: .symmetric(horizontal: 2.w, vertical: 5.h),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          children: [
+                            AppWidgets.commonTextAvenir("BE in Computer Engineering", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
+                            AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                          ],
+                        ),
+                        SizedBox(height: 6.h),
+                        AppWidgets.commonTextAvenir("Gujarat Technological University (CGPA - 8.02)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: 1,
-                  height: 60.h,
-                  color: Colors.grey.shade400,
-                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Wrap(
-                        children: [
-                          AppWidgets.commonTextAvenir("HSCB", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
-                          AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
-                        ],
-                      ),
-                      SizedBox(height: 6.h),
-                      AppWidgets.commonTextAvenir("Alpha High School (70%)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
-                    ],
+                  Container(
+                    width: 1,
+                    height: 60.h,
+                    color: Colors.grey.shade400,
+                    margin: EdgeInsets.symmetric(horizontal: 5.w),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          children: [
+                            AppWidgets.commonTextAvenir("HSCB", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
+                            AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                          ],
+                        ),
+                        SizedBox(height: 6.h),
+                        AppWidgets.commonTextAvenir("Alpha High School (70%)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -371,33 +373,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return SlideAnimation(
       child: Container(
-        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: AppWidgets.commonTextAvenir("Employment History", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+            AppWidgets.gradientBox(
+              child: AppWidgets.commonTextAvenir("Employment History", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
             ),
             // AppWidgets.divider(colors: AppColors.colorPrimary),
             SizedBox(height: 10.h),
             ...jobs.map((job) {
               return Padding(
-                padding: EdgeInsets.only(bottom: 5.h),
+                padding: .symmetric(horizontal: 2.w, vertical: 5.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
+                      spacing: 0,
+                      runSpacing: 0,
                       children: [
                         AppWidgets.commonTextAvenir("${job['title']} – ${job['company']}", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
                         AppWidgets.commonTextAvenir("(${job['duration']})", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
                       ],
                     ),
-
                     SizedBox(height: 4.h),
-
                     AppWidgets.commonTextAvenir(job['description']!, fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 8),
                   ],
                 ),
@@ -412,27 +411,35 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget skillsSection() {
     return SlideAnimation(
       child: Container(
-        padding: EdgeInsetsGeometry.all(10),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: AppWidgets.commonTextAvenir("Technical Skills", fontSize: AppWidgets.getResponsiveFont(20), fontWeight: FontWeight.w700, color: AppColors.colorPrimary),
+            AppWidgets.gradientBox(
+              child: AppWidgets.commonTextAvenir("Technical Skills", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
             ),
             // AppWidgets.divider(colors: AppColors.colorPrimary),
             SizedBox(height: 10.h),
-            _skillItem("Programming Languages", "Dart, Kotlin, Basic of Java"),
-            _skillItem("Mobile Development", "Flutter, Native Android Development, UI Integration, Custom Widgets, Animations"),
-            _skillItem("State Management", "GetX, Bloc, Provider"),
-            _skillItem("Architectures", "MVVM, MVC, CLEAN Architecture"),
-            _skillItem("API & Networking", "REST API Integration (Dio, Http, Retrofit, Volley),FFMPEG Integration"),
-            _skillItem("Database & Storage", "SQFLite,SQLite,Room Database, Firebase Database, Shared Preferences"),
-            _skillItem("Firebase Services", "Firebase Authentication, FCM Push Notifications, Firebase Analytics, FlutterFire , Firebase Crashlytics, Firebase Remote Config"),
-            _skillItem("Payments", "Stripe Integration (FPX, Google Pay, Apple Pay), In-app Purchases , Razorpay"),
-            _skillItem("Version Control", "GitHub, GitLab"),
-            _skillItem("Tools & Platforms", "Android Studio, VS Code, Trello, Slack, Basecamp, Asana, Redmine, ClickUp, Figma, Miro Board, ChatGPT, Cursor, Github Copilot, Postman, Swagger"),
-            _skillItem("Other Skills", "Prototyping, Wireframing, Code Review, Client Communication, Sprint Planning, Team Collaboration"),
+            Padding(
+              padding: .symmetric(horizontal: 2.w, vertical: 5.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _skillItem("Programming Languages", "Dart, Kotlin, Basic of Java"),
+                  _skillItem("Mobile Development", "Flutter, Native Android Development, UI Integration, Custom Widgets, Animations"),
+                  _skillItem("State Management", "GetX, Bloc, Provider"),
+                  _skillItem("Architectures", "MVVM, MVC, CLEAN Architecture"),
+                  _skillItem("API & Networking", "REST API Integration (Dio, Http, Retrofit, Volley),FFMPEG Integration"),
+                  _skillItem("Database & Storage", "SQFLite,SQLite,Room Database, Firebase Database, Shared Preferences"),
+                  _skillItem("Firebase Services", "Firebase Authentication, FCM Push Notifications, Firebase Analytics, FlutterFire , Firebase Crashlytics, Firebase Remote Config"),
+                  _skillItem("Payments", "Stripe Integration (FPX, Google Pay, Apple Pay), In-app Purchases , Razorpay"),
+                  _skillItem("Version Control", "GitHub, GitLab"),
+                  _skillItem("Tools & Platforms", "Android Studio, VS Code, Trello, Slack, Basecamp, Asana, Redmine, ClickUp, Figma, Miro Board, ChatGPT, Cursor, Github Copilot, Postman, Swagger"),
+                  _skillItem("Other Skills", "Prototyping, Wireframing, Code Review, Client Communication, Sprint Planning, Team Collaboration"),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -529,34 +536,37 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget setAboutMe() {
-    return RichText(
-      textAlign: TextAlign.start,
-      text: TextSpan(
-        style: TextStyle(fontSize: AppWidgets.getResponsiveFont(12), color: AppColors.blackFont, fontFamily: "Avenir", fontWeight: FontWeight.normal),
-        children: [
-          TextSpan(
-            text: "I am a mobile app developer with over ",
-            style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
-          ),
-          TextSpan(
-            text: "8 years ",
-            style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(13)),
-          ),
-          TextSpan(
-            text: "of experience creating smooth, reliable, and user-friendly mobile applications. I have worked on both ",
-            style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
-          ),
-          TextSpan(
-            text: "native Android apps and cross-platform apps using Flutter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(13)),
-          ),
-          TextSpan(
-            text:
-                ", turning ideas into real products that people use every day. I focus on clean architecture, robust code quality, and exceptional user experiences.\nThroughout my career, I have led multiple teams to deliver scalable mobile solutions, ensuring high standards in architecture, performance, and usability. I am passionate about leveraging modern technologies to solve complex problems and mentoring the next generation of developers. My goal is to build products that make an impact, add real value, and provide users with a consistent and enjoyable experience from start to finish.",
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 5.h),
+      child: RichText(
+        textAlign: TextAlign.start,
+        text: TextSpan(
+          style: TextStyle(fontSize: AppWidgets.getResponsiveFont(12), color: AppColors.blackFont, fontFamily: "Avenir", fontWeight: FontWeight.normal),
+          children: [
+            TextSpan(
+              text: "I am a mobile app developer with over ",
+              style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
+            ),
+            TextSpan(
+              text: "8 years ",
+              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(13)),
+            ),
+            TextSpan(
+              text: "of experience creating smooth, reliable, and user-friendly mobile applications. I have worked on both ",
+              style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
+            ),
+            TextSpan(
+              text: "native Android apps and cross-platform apps using Flutter",
+              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(13)),
+            ),
+            TextSpan(
+              text:
+                  ", turning ideas into real products that people use every day. I focus on clean architecture, robust code quality, and exceptional user experiences.\nThroughout my career, I have led multiple teams to deliver scalable mobile solutions, ensuring high standards in architecture, performance, and usability. I am passionate about leveraging modern technologies to solve complex problems and mentoring the next generation of developers. My goal is to build products that make an impact, add real value, and provide users with a consistent and enjoyable experience from start to finish.",
 
-            style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
-          ),
-        ],
+              style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -652,8 +662,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final Uri phoneUri = Uri(scheme: 'tel', path: '+919723555363');
     await launchUrl(phoneUri);
   }
-
-
 
   Future<void> _launchLinks(String link) async {
     final Uri linkedInUri = Uri.parse(link);

@@ -26,6 +26,20 @@ class AppWidgets {
     );
   }
 
+  static Widget gradientBox({required Widget child, Alignment alignment = Alignment.center, double radius = 5, double? width, double? height}) {
+    return Container(
+      alignment: alignment,
+      width: width ?? double.infinity,
+      height: height,
+      padding: EdgeInsets.symmetric(vertical: 5.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(radius.r), bottomLeft: Radius.circular(radius.r)),
+        gradient: const LinearGradient(colors: [Color(0xFF0000DC), Color(0xFF0055FF)]),
+      ),
+      child: child,
+    );
+  }
+
   // static Widget divider({double heights = 1, Color colors = AppColors.dividerLineColor}) {
   //   return SizedBox(
   //       width: 50.w,
@@ -37,6 +51,7 @@ class AppWidgets {
     }
     return size.sp; // Mobile normal
   }
+
   static Widget commonTextAvenir(
     String text, {
     TextAlign textAlign = TextAlign.start,

@@ -1,5 +1,3 @@
-
-
 class AppImage {
   static String commonName = "assets/images";
   static String icSplashLogo = "$commonName/splash.png";

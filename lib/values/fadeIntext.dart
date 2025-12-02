@@ -17,8 +17,7 @@ class _SlideUpTextState extends State<FadeInText> with SingleTickerProviderState
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
-    _offset = Tween<Offset>( begin: const Offset(-0.4, 0),
-      end: Offset.zero,).animate(CurvedAnimation(curve: Curves.easeOut, parent: _controller));
+    _offset = Tween<Offset>(begin: const Offset(-0.4, 0), end: Offset.zero).animate(CurvedAnimation(curve: Curves.easeOut, parent: _controller));
 
     _controller.forward();
   }
