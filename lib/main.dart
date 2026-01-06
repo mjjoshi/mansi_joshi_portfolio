@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(30), color: AppColors.blackFont, fontWeight: FontWeight.w700),
-                                      AppWidgets.commonTextAvenir("Sr. Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(12)),
+                                      AppWidgets.commonTextAvenir("Sr.Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(12)),
                                     ],
                                   ),
 
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Column(
                               children: [
                                 AppWidgets.gradientBox(
-                                  child: AppWidgets.commonTextAvenir("About me", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
+                                  child: AppWidgets.commonTextAvenir("About Me", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
                                 ),
                                 SizedBox(height: 10.h),
                                 setAboutMe(),
@@ -230,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(height: 6.h),
 
                     /// SYNOPSIS
-                    AppWidgets.commonTextAvenir(project.synopsis, maxLines: 9, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
+                    AppWidgets.commonTextAvenir(project.synopsis, maxLines: 12, fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w500, color: AppColors.blackFont),
                     SizedBox(height: 8.h),
 
                     /// BUTTON CENTERED
@@ -340,7 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Wrap(
                           children: [
                             AppWidgets.commonTextAvenir("BE in Computer Engineering", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
-                            AppWidgets.commonTextAvenir(" (2011 - 2013)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                            AppWidgets.commonTextAvenir(" (2013 - 2017)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
                           ],
                         ),
                         SizedBox(height: 6.h),
@@ -485,12 +485,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  _skillItem("Programming Languages", "Dart, Kotlin, Basic of Java"),
+                  _skillItem("Programming Languages", "Dart, Kotlin, Basic Java"),
                   _skillItem("Mobile Development", "Flutter, Native Android Development, UI Integration, Custom Widgets, Animations"),
                   _skillItem("State Management", "GetX, Bloc, Provider"),
                   _skillItem("Architectures", "MVVM, MVC, CLEAN Architecture"),
                   _skillItem("API & Networking", "REST API Integration (Dio, Http, Retrofit, Volley),FFMPEG Integration"),
-                  _skillItem("Database & Storage", "SQFLite,SQLite,Room Database, Firebase Database, Shared Preferences"),
+                  _skillItem("Database & Storage", "SQFLite, SQLite, Room Database, Firebase Database, Shared Preferences"),
                   _skillItem("Firebase Services", "Firebase Authentication, FCM Push Notifications, Firebase Analytics, FlutterFire , Firebase Crashlytics, Firebase Remote Config"),
                   _skillItem("Payments", "Stripe Integration (FPX, Google Pay, Apple Pay), In-app Purchases , Razorpay"),
                   _skillItem("Version Control", "GitHub, GitLab"),
@@ -525,9 +525,14 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.only(topRight: Radius.circular(25.r), topLeft: Radius.circular(25.r)),
         gradient: const LinearGradient(
           colors: [
-            Color(0xFF000080),
-            Color(0xFF0000DC), // Dark blue
-            Color(0xFF6666FF), // Light blue
+            // Color(0xFF000080),
+            // Color(0xFF0000DC), // Dark blue
+            // Color(0xFF6666FF), // Light blue
+
+
+            Color(0xFF6347C6), // Dark blue
+            Color(0xFF6347C6),
+            Color(0xFFD946EF), // Light blue
           ],
         ),
       ),
@@ -602,7 +607,7 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(fontSize: AppWidgets.getResponsiveFont(12), color: AppColors.blackFont, fontFamily: "Avenir", fontWeight: FontWeight.normal),
           children: [
             TextSpan(
-              text: "I am a mobile app developer with over ",
+              text: "I am a Senior Mobile Application Developer with over ",
               style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
             ),
             TextSpan(
@@ -614,7 +619,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(11)),
             ),
             TextSpan(
-              text: "native Android apps and cross-platform apps using Flutter",
+              text: "Native Android apps and cross-platform apps using Flutter",
               style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringNames.fontFamily, fontSize: AppWidgets.getResponsiveFont(13)),
             ),
             TextSpan(

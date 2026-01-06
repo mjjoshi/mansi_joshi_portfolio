@@ -34,7 +34,8 @@ class AppWidgets {
       padding: EdgeInsets.symmetric(vertical: 5.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(radius.r), bottomLeft: Radius.circular(radius.r)),
-        gradient: const LinearGradient(colors: [Color(0xFF0000DC), Color(0xFF0055FF)]),
+        gradient: const LinearGradient(colors: [Color(0xFF6347C6),Color(0xFF6347C6), Color(0xFFD946EF)]),
+        // gradient: const LinearGradient(colors: [Color(0xFF0000DC), Color(0xFF0055FF)]),
       ),
       child: child,
     );

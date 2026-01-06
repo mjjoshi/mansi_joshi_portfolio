@@ -8,6 +8,9 @@ class AppColors {
   static const Color colorPrimary = Color(0xff0000DC);
   static const Color colorPrimaryLight = Color(0x900000DC);
 
+
+  // Color(0xFF6347C6),
+  // Color(0xFFD946EF), // Light blue
   static const Color colorSecondary = Color(0xff681A29);
   static const Color colorWhite = Color(0xffFFFFFF);
   static const Color disableTimeBGSlot = Color(0xffFFFFFF);

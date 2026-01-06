@@ -42,7 +42,8 @@ class _GradientButtonState extends State<GradientButton> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            gradient: const LinearGradient(colors: [Color(0xFF0000DC), Color(0xFF0055FF)]),
+          //  gradient: const LinearGradient(colors: [Color(0xFF0000DC), Color(0xFF0055FF)]),
+            gradient: const LinearGradient(colors: [Color(0xFF6347C6), Color(0xFFD946EF)]),
           ),
           child: Text(
             widget.text,
