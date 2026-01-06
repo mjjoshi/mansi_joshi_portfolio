@@ -9,8 +9,6 @@ import 'package:portfolio/values/slide_animation.dart';
 import 'package:portfolio/values/strings_name.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -60,21 +58,40 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         isMobile
-                            ? Column(
+                            ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   // text
-                                  AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(30), color: AppColors.blackFont, fontWeight: FontWeight.w700),
-                                  AppWidgets.commonTextAvenir("Senior Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(10)),
+
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(30), color: AppColors.blackFont, fontWeight: FontWeight.w700),
+                                      AppWidgets.commonTextAvenir("Sr. Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(12)),
+                                    ],
+                                  ),
+
                                   SizedBox(height: 20),
                                   // buttons
-                                  Wrap(
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     spacing: 10,
                                     children: [
-                                      GradientButton(text: "Projects", onTap: () {
-                                        Scrollable.ensureVisible(projectKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
-                                      }),
-                                      GradientButton(text: "Resume", onTap: () {}),
+                                      GradientButton(
+                                        text: "Projects",
+                                        onTap: () {
+                                          Scrollable.ensureVisible(projectKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
+                                        },
+                                      ),
+                                      GradientButton(
+                                        text: "Resume",
+                                        onTap: () {
+                                          _launchLinks("https://drive.google.com/drive/folders/1ZcNWvVhbEK5Sa_oCd6F2fN1MDmwH3g1D");
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -99,7 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                         },
                                       ),
                                       SizedBox(width: 10),
-                                      GradientButton(text: "Resume", onTap: () {}),
+                                      GradientButton(text: "Resume", onTap: () {
+                                        _launchLinks("https://drive.google.com/drive/folders/1ZcNWvVhbEK5Sa_oCd6F2fN1MDmwH3g1D");
+                                      }),
                                     ],
                                   ),
                                 ],
@@ -193,7 +212,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     /// IMAGE
                     Center(
-                      child: Image.asset(project.image, fit: BoxFit.contain, height: 120.h),
+                      child: Container(
+                        width: 150.w,
+                        height: 130.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(image: AssetImage(project.image), fit: BoxFit.contain),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 8.h),
 
@@ -221,7 +247,17 @@ class _MyHomePageState extends State<MyHomePage> {
               /// DESKTOP + WEB LAYOUT (your original row)
               : Row(
                   children: [
-                    Image.asset(project.image, fit: BoxFit.contain, height: 130.h),
+                    Center(
+                      child: Container(
+                        width: 40.w,
+                        height: 100.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(image: AssetImage(project.image), fit: BoxFit.contain),
+                        ),
+                      ),
+                    ),
+                    // Image.asset(project.image, fit: BoxFit.contain, height: 130.h),
                     SizedBox(width: 3.w),
 
                     Expanded(
@@ -333,6 +369,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
+                  Container(
+                    width: 1,
+                    height: 60.h,
+                    color: Colors.grey.shade400,
+                    margin: EdgeInsets.symmetric(horizontal: 5.w),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          children: [
+                            AppWidgets.commonTextAvenir("SSC", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
+                            AppWidgets.commonTextAvenir(" (2010 - 2011)", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                          ],
+                        ),
+                        SizedBox(height: 6.h),
+                        AppWidgets.commonTextAvenir("Kaneria School (86%)", fontSize: AppWidgets.getResponsiveFont(9), fontWeight: FontWeight.w500, color: AppColors.blackFont, maxLines: 3),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -376,6 +433,7 @@ class _MyHomePageState extends State<MyHomePage> {
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.r), boxShadow: commonLightShadow()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppWidgets.gradientBox(
               child: AppWidgets.commonTextAvenir("Employment History", fontSize: AppWidgets.getResponsiveFont(18), fontWeight: FontWeight.w700, color: AppColors.colorWhite),
@@ -387,13 +445,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: .symmetric(horizontal: 2.w, vertical: 5.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Wrap(
                       spacing: 0,
                       runSpacing: 0,
                       children: [
                         AppWidgets.commonTextAvenir("${job['title']} – ${job['company']}", fontSize: AppWidgets.getResponsiveFont(12), fontWeight: FontWeight.w700, color: Colors.black),
-                        AppWidgets.commonTextAvenir("(${job['duration']})", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
+                        AppWidgets.commonTextAvenir(" (${job['duration']})", fontSize: AppWidgets.getResponsiveFont(10), fontWeight: FontWeight.w600, color: AppColors.blackFont),
                       ],
                     ),
                     SizedBox(height: 4.h),
@@ -519,7 +578,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: Image.asset(AppImage.icLinkedin, fit: BoxFit.contain, height: 40.h),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 5.w),
               GestureDetector(
                 onTap: () {
                   _launchLinks("https://github.com/mjjoshi");
@@ -528,7 +587,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-
           SizedBox(height: 40.h),
         ],
       ),
@@ -578,7 +636,7 @@ class _MyHomePageState extends State<MyHomePage> {
       synopsis:
           "Payday is an Earned Wage Access app that lets employees access a portion of their earned salary before payday.It provides instant withdrawals with transparent, non-loan fees deducted on the next salary.Users learn budgeting and saving through short, gamified financial modules.Smart algorithms ensure responsible usage and secure integration with employer payroll systems.",
       image: AppImage.icPayday,
-      link: '',
+      link: 'https://play.google.com/store/apps/details?id=com.payday.fund',
     ),
     ProjectModel(
       title: "RespondSVP – Envitely",
@@ -640,7 +698,7 @@ class _MyHomePageState extends State<MyHomePage> {
       technology: "SQLite, MySQL, Kotlin, PHP, Android",
       synopsis:
           "The BrodexTrident mobile app connects engineers with the BT Aqua System in real-time.It provides job details such as site address, instructions, assets, and notes.Engineers can upload job data, photos, signatures, and parts used directly from the field.The system eliminates paper-based workflow and allows instant processing by office staff.",
-      image: AppImage.icEnvitely,
+      image: AppImage.icBrodex,
       link: 'https://play.google.com/store/apps/details?id=com.brodex&hl=en_IN',
     ),
     ProjectModel(
@@ -648,7 +706,7 @@ class _MyHomePageState extends State<MyHomePage> {
       technology: "PHP, Swift, Kotlin, iOS, Android",
       synopsis:
           "Glow Aesthetics is a healthcare and skincare service app for a Dubai-based clinic.It showcases treatments like skincare, laser, aesthetics, surgery, and wellness services.Users can explore services, learn about treatments, and connect with specialists.The app provides a modern interface built with advanced mobile technologies.",
-      image: AppImage.icEnvitely,
+      image: AppImage.icGlow,
       link: 'https://play.google.com/store/apps/details?id=com.glowdubai&hl=en',
     ),
   ];
@@ -665,6 +723,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _launchLinks(String link) async {
     final Uri linkedInUri = Uri.parse(link);
-    await launchUrl(linkedInUri);
+    await launchUrl(linkedInUri,mode: LaunchMode.externalApplication);
   }
 }
