@@ -16,4 +16,8 @@ class AppImage {
   static String icLoader = "$commonName/ic_loader.json";
   static String icBrodex = "$commonName/brodex.png";
   static String icGlow = "$commonName/glow.png";
+  static String icPhone = "$commonName/phone.png";
+  static String icResume = "$commonName/resume.png";
+  static String icProjects = "$commonName/projects.png";
+
 }

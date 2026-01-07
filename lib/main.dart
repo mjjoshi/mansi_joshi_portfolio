@@ -4,6 +4,7 @@ import 'package:portfolio/values/app_colors.dart';
 import 'package:portfolio/values/app_images.dart';
 import 'package:portfolio/values/app_widgets.dart';
 import 'package:portfolio/values/gradient_button.dart';
+import 'package:portfolio/values/gradient_image_button.dart';
 import 'package:portfolio/values/project_model.dart';
 import 'package:portfolio/values/slide_animation.dart';
 import 'package:portfolio/values/strings_name.dart';
@@ -38,6 +39,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey projectKey = GlobalKey();
+  final GlobalKey contactKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -59,35 +61,44 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         isMobile
                             ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   // text
-
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(30), color: AppColors.blackFont, fontWeight: FontWeight.w700),
-                                      AppWidgets.commonTextAvenir("Sr.Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(12)),
+                                      AppWidgets.commonTextAvenir("Mansi Joshi", fontSize: AppWidgets.getResponsiveFont(25), color: AppColors.blackFont, fontWeight: FontWeight.w700),
+                                      AppWidgets.commonTextAvenir("Sr.Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(10)),
                                     ],
                                   ),
 
                                   SizedBox(height: 20),
                                   // buttons
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    spacing: 10,
+                                  Row(
+                                    spacing: 5.w,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      GradientButton(
-                                        text: "Projects",
+                                      GradientImageButton(
+                                        text: AppImage.icProjects,
+                                        isFromMobile: true,
                                         onTap: () {
                                           Scrollable.ensureVisible(projectKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
                                         },
                                       ),
-                                      GradientButton(
-                                        text: "Resume",
+
+                                      GradientImageButton(
+                                        text: AppImage.icPhone,
+                                        isFromMobile: true,
+                                        onTap: () {
+                                          Scrollable.ensureVisible(contactKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
+                                        },
+                                      ),
+                                      GradientImageButton(
+                                        text: AppImage.icResume,
+                                        isFromMobile: true,
                                         onTap: () {
                                           _launchLinks("https://drive.google.com/drive/folders/1ZcNWvVhbEK5Sa_oCd6F2fN1MDmwH3g1D");
                                         },
@@ -98,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               )
                             : Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   // text section
                                   Column(
@@ -107,18 +119,31 @@ class _MyHomePageState extends State<MyHomePage> {
                                       AppWidgets.commonTextAvenir("Sr.Software Engineer", color: AppColors.blackFont, fontSize: AppWidgets.getResponsiveFont(15)),
                                     ],
                                   ),
+
+
                                   Row(
+                                    spacing: 5.w,
                                     children: [
-                                      GradientButton(
-                                        text: "Projects",
+                                      GradientImageButton(
+                                        text: AppImage.icProjects,
                                         onTap: () {
                                           Scrollable.ensureVisible(projectKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
                                         },
                                       ),
-                                      SizedBox(width: 10),
-                                      GradientButton(text: "Resume", onTap: () {
-                                        _launchLinks("https://drive.google.com/drive/folders/1ZcNWvVhbEK5Sa_oCd6F2fN1MDmwH3g1D");
-                                      }),
+
+                                      GradientImageButton(
+                                        text: AppImage.icPhone,
+                                        onTap: () {
+                                          Scrollable.ensureVisible(contactKey.currentContext!, duration: Duration(milliseconds: 800), curve: Curves.easeInOut);
+                                        },
+                                      ),
+                                      GradientImageButton(
+                                        text: AppImage.icResume,
+
+                                        onTap: () {
+                                          _launchLinks("https://drive.google.com/drive/folders/1ZcNWvVhbEK5Sa_oCd6F2fN1MDmwH3g1D");
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -521,6 +546,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget footerSection() {
     return Container(
+      key: contactKey,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(topRight: Radius.circular(25.r), topLeft: Radius.circular(25.r)),
         gradient: const LinearGradient(
@@ -528,8 +554,6 @@ class _MyHomePageState extends State<MyHomePage> {
             // Color(0xFF000080),
             // Color(0xFF0000DC), // Dark blue
             // Color(0xFF6666FF), // Light blue
-
-
             Color(0xFF6347C6), // Dark blue
             Color(0xFF6347C6),
             Color(0xFFD946EF), // Light blue
@@ -728,6 +752,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _launchLinks(String link) async {
     final Uri linkedInUri = Uri.parse(link);
-    await launchUrl(linkedInUri,mode: LaunchMode.externalApplication);
+    await launchUrl(linkedInUri, mode: LaunchMode.externalApplication);
   }
 }
